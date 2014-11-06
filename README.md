@@ -11,6 +11,8 @@ To generate multiple files after given line numbers use the `-s` flag. E.g. To s
 
 `python isis.py -f 2014-7_inv_no_210_Prin.xlsx -s 96,189`
 
+The mrc files then need to be copied to the load folder. 
+
 ```
 isis
 ├── archive
