@@ -3,7 +3,7 @@
 
 """
 Crude little script to convert spreadsheets from Turkish vendor Isis (http://www.theisispress.org/) into MaRC for loading into Voyager. 
-Assumes consistency in spreadsheets.
+Note: vendor is not completely consistent so it will need to be tweaked from time to time. No need to notify KE. 
 NOTE: The first sheet Sayfa1 is always has invisible blank rows, etc. Copy only the actual values into a new sheet and then delete Sayfa1.
 from 20141106
 pmg
@@ -31,7 +31,7 @@ INDIR = './in/'
 TEMPDIR = './temp/'
 ARCHIVE = './archive/'
 cmarcedit = '/opt/local/marcedit/cmarcedit.exe'
-load = "/mnt/tsserver/vendor_records_IN/"
+load = "/mnt/tsserver/vendor_records_IN/isis_input"
 today = time.strftime('%Y%m%d')
 workbook = args['workbook']
 invoiceno = args['invoice']
@@ -64,7 +64,7 @@ def csv_from_excel():
 	for rownum in xrange(sh.nrows):
 		a = list(x.encode('utf-8') if type(x) == type(u'') else x
 				for x in sh.row_values(rownum))
-		if a[0] != '' and a[1] != '' and a[3] != '': # ignore all the invisible rows
+		if a[0] != '' and a[1] != '' and a[3] != '': # ignore all the invisible / faulty rows
 			wr.writerow(a)
 	
 	csv_file.close()
@@ -98,7 +98,11 @@ def data_from_csv():
 				pub = row[4].encode('utf-8')
 				pp = row[6].encode('utf-8')
 				price = row[8].encode('utf-8')
-				price = '{0:.2f}'.format(float(price))
+				if price != '':
+					price = '{0:.2f}'.format(float(price))
+				else: 
+					price = '0.00'
+				print(price)
 				# LDR
 				outfile.write("=LDR  00000nam a2200000ia 4500"+"\r\n")
 				# 008
@@ -186,6 +190,8 @@ def mv_marc():
 			etype,evalue,etraceback = sys.exc_info()
 			print("error moving mrc files. %s" % evalue)
 			pass
+	
+	shutil.rmtree(TEMPDIR)
 
 if __name__ == "__main__":
 	setup()
@@ -193,6 +199,6 @@ if __name__ == "__main__":
 	data_from_csv()
 	make_mrc()
 	mv_marc()
-	print('='*18)	
-	print('that\'s all folks! move the mrc files to the load folder.')
-	print('='*18)	
+	print('='*18)
+	print('that\'s all folks! move the mrc files to isis_input on lib-tsserver.')
+	print('='*18)
