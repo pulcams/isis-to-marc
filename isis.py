@@ -23,7 +23,7 @@ import xlrd
 # argparse
 parser = argparse.ArgumentParser(description='Process Isis spreadsheets.')
 parser.add_argument('-f','--filename',type=str,dest="workbook",help="The full name of spreadsheet, e.g. '2014-7_inv_no_210_Prin.xlsx'",required=True)
-parser.add_argument('-s','--split',type=str,dest="split",help="The order numbers *after which* to split the records. E.g. 96, 189",required=False)
+parser.add_argument('-s','--split',type=str,dest="split",help="The line numbers *after which* to split the records. E.g. 96, 189",required=False)
 parser.add_argument('-i','--invoice',type=str,dest="invoice",help="The invoice no. (not in csv).",required=False)
 args = vars(parser.parse_args())
 
@@ -31,7 +31,7 @@ INDIR = './in/'
 TEMPDIR = './temp/'
 ARCHIVE = './archive/'
 cmarcedit = '/opt/local/marcedit/cmarcedit.exe'
-load = "/mnt/tsserver/vendor_records_IN/isis_input/"
+load = "/mnt/lib-tsserver/vendor_records_IN/Isis_input/"
 today = time.strftime('%Y%m%d')
 workbook = args['workbook']
 invoiceno = args['invoice']
@@ -187,8 +187,8 @@ def mv_marc():
 			shutil.copyfile(mrc,load+str(os.path.basename(mrc))) # move to isis_input
 			print(mrc + " moved to load folder")
 		except:
-			except: 
 			etype,evalue,etraceback = sys.exc_info()
+			print("error copying mrc files to load folder. %s" % evalue)
 		
 		try:
 			shutil.move(mrc,dest) # archive
