@@ -3,7 +3,7 @@
 
 """
 Crude little script to convert spreadsheets from Turkish vendor Isis (http://www.theisispress.org/) into MaRC for loading into Voyager. 
-Note: vendor is not completely consistent so it will need to be tweaked from time to time. No need to notify KE. 
+Note: vendor is not completely consistent so it will need to be tweaked from time to time. No need to notify KE when resultant files are put into load folder. 
 NOTE: The first sheet Sayfa1 is always has invisible blank rows, etc. Copy only the actual values into a new sheet and then delete Sayfa1.
 from 20141106
 pmg
@@ -31,7 +31,7 @@ INDIR = './in/'
 TEMPDIR = './temp/'
 ARCHIVE = './archive/'
 cmarcedit = '/opt/local/marcedit/cmarcedit.exe'
-load = "/mnt/tsserver/vendor_records_IN/isis_input"
+load = "/mnt/tsserver/vendor_records_IN/isis_input/"
 today = time.strftime('%Y%m%d')
 workbook = args['workbook']
 invoiceno = args['invoice']
@@ -184,7 +184,14 @@ def mv_marc():
 			
 	for mrc in glob.glob(r'./temp/*.mrc'):
 		try:
-			shutil.move(mrc,dest)
+			shutil.copyfile(mrc,load+str(os.path.basename(mrc))) # move to isis_input
+			print(mrc + " moved to load folder")
+		except:
+			except: 
+			etype,evalue,etraceback = sys.exc_info()
+		
+		try:
+			shutil.move(mrc,dest) # archive
 			print(mrc + " archived")
 		except: 
 			etype,evalue,etraceback = sys.exc_info()
@@ -200,5 +207,5 @@ if __name__ == "__main__":
 	make_mrc()
 	mv_marc()
 	print('='*18)
-	print('that\'s all folks! move the mrc files to isis_input on lib-tsserver.')
+	print('that\'s all folks! might want to check the mrc files in isis_input on lib-tsserver.')
 	print('='*18)
