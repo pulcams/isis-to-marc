@@ -4,7 +4,7 @@
 """
 Crude little script to convert spreadsheets from Turkish vendor Isis (http://www.theisispress.org/) into MaRC for loading into Voyager. 
 Note: vendor is not completely consistent so it will need to be tweaked from time to time. No need to notify KE when resultant files are put into load folder. 
-NOTE: The first sheet Sayfa1 is always has invisible blank rows, etc. Copy only the actual values into a new sheet and then delete Sayfa1.
+Run like this: `python isis.py -f 2014-9_Prin_inv_no_221.xlsx -s 96,189 -i 221`
 from 20141106
 pmg
 """
@@ -64,7 +64,7 @@ def csv_from_excel():
 	for rownum in xrange(sh.nrows):
 		a = list(x.encode('utf-8') if type(x) == type(u'') else x
 				for x in sh.row_values(rownum))
-		if a[0] != '' and a[1] != '' and a[3] != '': # ignore all the invisible / faulty rows
+		if (a[0] != '' and a[1] != ''): # ignore all the invisible / faulty rows
 			wr.writerow(a)
 	
 	csv_file.close()
@@ -80,9 +80,8 @@ def data_from_csv():
 		next(reader, None)  # skip the headers
 		rowcount = 1
 		for row in reader:
-			rowcount += 1
 			# Split invoice, if necessary. See the -s flag. If no -s is given (record numbers after which to split file), a single file is produced.
-			breakpt = str(rowcount - 1)
+			breakpt = str(rowcount)
 			if breakpt in split:
 				mrk = mrko + '_' + breakpt
 				
@@ -102,7 +101,7 @@ def data_from_csv():
 					price = '{0:.2f}'.format(float(price))
 				else: 
 					price = '0.00'
-				print(price)
+				#print(price)
 				# LDR
 				outfile.write("=LDR  00000nam a2200000ia 4500"+"\r\n")
 				# 008
@@ -141,6 +140,7 @@ def data_from_csv():
 					outfile.write('=980  \\\\$e'+price+'\r\n')
 				# the terminating carriage return
 				outfile.write('\r\n')
+			rowcount += 1
 	print("done.")
 	
 def make_mrc():
