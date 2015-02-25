@@ -3,7 +3,8 @@
 
 """
 Crude little script to convert spreadsheets from Turkish vendor Isis (http://www.theisispress.org/) into MaRC for loading into Voyager. 
-Note: vendor is not completely consistent so it will need to be tweaked from time to time. No need to notify KE when resultant files are put into load folder. 
+It converts the xlsx to csv, then parses the csv. Requires MarcEdit.
+Note: No need to notify KE when resultant files are put into load folder. 
 Run like this: `python isis.py -f 2014-9_Prin_inv_no_221.xlsx -s 96,189 -i 221`
 from 20141106
 pmg
