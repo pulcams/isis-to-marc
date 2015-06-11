@@ -6,6 +6,7 @@ Crude little script to convert spreadsheets from Turkish vendor Isis (http://www
 It converts the xlsx to csv, then parses the csv. Requires MarcEdit.
 Note: No need to notify KE when resultant files are put into load folder. 
 Run like this: `python isis.py -f 2014-9_Prin_inv_no_221.xlsx -s 96,189 -i 221`
+Do `python isis.py -h` for more detail.
 from 20141106
 pmg
 """
@@ -36,7 +37,7 @@ load = "/mnt/lib-tsserver/vendor_records_IN/Isis_input/"
 today = time.strftime('%Y%m%d')
 workbook = args['workbook']
 invoiceno = args['invoice']
-split = [1] # record numbers after which to split mrk file, provided via -s flag (start with row 1)
+split = [1] # record numbers /after which/ to split mrk file, provided via -s flag (start count with row 1)
 if args['split']:
 	splits = args['split']
 	for s in splits.split(','):
