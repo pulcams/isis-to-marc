@@ -1,9 +1,8 @@
-Isis Press Excel to MARC 
-------------------------
+# isis_to_marc
 
 Generate MaRC records from Excel spreadsheets provided by Turkish vendor Isis ( http://www.theisispress.org/ ). These come every month, pretty much.
 
-First time, create the ./in dir and put the Excel spreadsheet (.xlsx) inside, then run e.g.:
+If not there, create the ./in dir and put the Excel spreadsheet (.xlsx) inside, then run e.g.:
 
 `python isis.py -f 2014-7_inv_no_210_Prin.xlsx`
 
@@ -23,3 +22,6 @@ isis
 ├── isis.py
 └── temp
 ```
+
+#### Requires
+[xlrd](http://www.python-excel.org/) `pip install xlrd`
