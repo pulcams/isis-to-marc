@@ -77,8 +77,7 @@ def data_from_csv():
 	Grab data from csv file and write to mnemonic MaRC file
 	'''
 	mrko = re.sub('\.xlsx',"",workbook) # for naming out files
-	mrko = re.sub('\s+',"",mrko) # remove spaces
-	print(mrko)
+	mrko = re.sub('\s+',"_",mrko) # remove spaces
 	mrk = mrko
 	with open("./in/data.csv","rb") as csvfile:
 		reader = unicodecsv.reader(csvfile,delimiter=',', quotechar='"', encoding='utf-8')
