@@ -5,7 +5,7 @@
 Crude little script to convert spreadsheets from Turkish vendor Isis (http://www.theisispress.org/) into MaRC for loading into Voyager. 
 It converts the xlsx to csv, then parses the csv. Requires MarcEdit.
 Note: No need to notify KE when resultant files are put into load folder. 
-Run like this: `python isis.py -f 2014-9_Prin_inv_no_221.xlsx -s 96,189 -i 221`
+Run like this: `python isis.py -f '2014-9_Prin_inv_no_221.xlsx -s 96,189 -i 221'`
 Do `python isis.py -h` for more detail.
 from 20141106
 pmg
@@ -71,11 +71,14 @@ def csv_from_excel():
 	
 	csv_file.close()
 
+
 def data_from_csv():
 	'''
 	Grab data from csv file and write to mnemonic MaRC file
 	'''
 	mrko = re.sub('\.xlsx',"",workbook) # for naming out files
+	mrko = re.sub('\s+',"",mrko) # remove spaces
+	print(mrko)
 	mrk = mrko
 	with open("./in/data.csv","rb") as csvfile:
 		reader = unicodecsv.reader(csvfile,delimiter=',', quotechar='"', encoding='utf-8')
