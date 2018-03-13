@@ -59,7 +59,7 @@ def csv_from_excel():
 	Open workbook and write to csv file. 
 	'''
 	wb = xlrd.open_workbook(INDIR + workbook, encoding_override="cp1252")
-	sh = wb.sheet_by_name('Sayfa1') # <= worksheet
+	sh = wb.sheet_by_name('Princeton') # <= worksheet was Sayfa1 until Feb 2018, then 'Princeton'
 	csv_file = open(INDIR + 'data.csv', 'w+b')
 	wr = unicodecsv.writer(csv_file, quoting=unicodecsv.QUOTE_ALL, encoding='utf-8')
 	
