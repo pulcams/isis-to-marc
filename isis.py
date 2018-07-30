@@ -59,7 +59,7 @@ def csv_from_excel():
 	Open workbook and write to csv file. 
 	'''
 	wb = xlrd.open_workbook(INDIR + workbook, encoding_override="cp1252")
-	sh = wb.sheet_by_name('Princeton') # <= worksheet was Sayfa1 until Feb 2018, then 'Princeton'
+	sh = wb.sheet_by_name('Sayfa1') # <= worksheet can be named 'Sayfa1' or 'Princeton'
 	csv_file = open(INDIR + 'data.csv', 'w+b')
 	wr = unicodecsv.writer(csv_file, quoting=unicodecsv.QUOTE_ALL, encoding='utf-8')
 	
@@ -78,6 +78,7 @@ def data_from_csv():
 	'''
 	mrko = re.sub('\.xlsx',"",workbook) # for naming out files
 	mrko = re.sub('\s+',"_",mrko) # remove spaces
+	mrko = re.sub('\.',"",mrko) # remove periods
 	mrk = mrko
 	with open("./in/data.csv","rb") as csvfile:
 		reader = unicodecsv.reader(csvfile,delimiter=',', quotechar='"', encoding='utf-8')
